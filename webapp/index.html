@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Hello AngularJS</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    	<script src="hello.js"></script>
+	</head>
+
+	<body ng-app="demo">
+		<div ng-controller="Hello">
+			<p>The ID is {{greeting.data}}</p>
+			<p>The content is {{greeting.name}}</p>
+		</div>
+	</body>
+</html>
