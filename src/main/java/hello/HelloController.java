@@ -4,19 +4,25 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
+import java.util.LinkedList;
 
 @RestController
 public class HelloController {
 
+    Utils util = new Utils();
+
+    MusicDao musicDao = new MusicDao();
     @CrossOrigin
-    @RequestMapping("/")
+    @RequestMapping("/getGenres/")
     public String index() {
-        /*HttpServletResponse response = new HttpServletResponse() {
-        }*/
-        //komc
-        System.out.println("tutaj " + new Date());
-        return "{\"name\": \"Greetings from Spring Boot!\", \"data\": \"" + new Date() + "\"}";
+        util.truncateGenreTable();
+        util.createGenreList();
+        LinkedList<Genre> genres = musicDao.getGenres();
+        util.truncateGenresAssocTable();
+        util.createGenresAssocList(genres);
+        System.out.println("Genres: " + genres.toString());
+
+        return "sukces";
     }
 
 }
