@@ -1,5 +1,6 @@
 package hello;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -8,29 +9,28 @@ import java.util.LinkedList;
 public class Utils {
     MusicDao musicDao = new MusicDao();
 
+    LinkedList<String> genresNamesStringList = new LinkedList<>();
     LinkedList<String> genresNamesList = new LinkedList<>();
-    LinkedList<String> genresAssocList = new LinkedList<>();
+    HashMap<String, Integer> genresNamesMap = new HashMap<>();
+    LinkedList<GenreAssoc> genresNamesAssocList = new LinkedList<>();
 
     public void createGenreList(){
 
-        fillGenresNamesList(genresNamesList);
-        fillGenresAssocList(genresNamesList);
+        fillGenresNamesList(genresNamesStringList);
 
-        for(int i = 0; i < genresNamesList.size(); i++){
-            musicDao.insertIntoGenres(i, genresNamesList.get(i));
+        for(int i = 0; i < genresNamesStringList.size(); i++){
+            musicDao.insertIntoGenres(i, genresNamesStringList.get(i));
+            genresNamesList.add(i, genresNamesStringList.get(i));
+            genresNamesMap.put(genresNamesStringList.get(i), i);
         }
     }
 
     public void createGenresAssocList(LinkedList<Genre> genres){
 
-        musicDao.insertIntoGenresAssoc(1,2,3);
-        /*genres
-
-        fillGenresNamesList(genresNamesList);
-
-        for(int i = 0; i < genresNamesList.size(); i++){
-            musicDao.insertIntoGenres(i, genresNamesList.get(i));
-        }*/
+        fillGenresAssocList(genresNamesMap);
+        for(int i = 0; i < genresNamesAssocList.size(); i++){
+            musicDao.insertIntoGenresAssoc(i, genresNamesAssocList.get(i).getGenreAssocIdFrom(), genresNamesAssocList.get(i).getGenreAssocIdTo());
+        }
     }
 
     public void truncateGenreTable(){
@@ -43,9 +43,251 @@ public class Utils {
     }
 
 
-    private void fillGenresAssocList(LinkedList<String> genresNamesList) {
-
-
+    private void fillGenresAssocList(HashMap<String, Integer> genresNamesMap) {
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("classical"), genresNamesMap.get("progressive-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("classical"), genresNamesMap.get("neoclassical-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("classical"), genresNamesMap.get("avantgarde")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("gospel"), genresNamesMap.get("doo-wop")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hawaiian--folk"), genresNamesMap.get("surf")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("mexican-folk"), genresNamesMap.get("surf")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("spirituals"), genresNamesMap.get("blues")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("work-songs"), genresNamesMap.get("blues")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("classical"), genresNamesMap.get("art-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hymns"), genresNamesMap.get("appalachian-folk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("angloceltic-folk"), genresNamesMap.get("appalachian-folk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("angloceltic-folk"), genresNamesMap.get("western-music")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("angloceltic-folk"), genresNamesMap.get("bluegrass")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("angloceltic-folk"), genresNamesMap.get("neofolk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("angloceltic-folk"), genresNamesMap.get("blues")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("angloceltic-folk"), genresNamesMap.get("electric-folk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("western-music"), genresNamesMap.get("country")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("appalachian-folk"), genresNamesMap.get("bluegrass")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("appalachian-folk"), genresNamesMap.get("neofolk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("appalachian-folk"), genresNamesMap.get("folk-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("blues"), genresNamesMap.get("jump-blues")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("bluegrass"), genresNamesMap.get("country")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("blues"), genresNamesMap.get("skiffle")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("blues"), genresNamesMap.get("punk-blues")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("blues"), genresNamesMap.get("boogie-woogie")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("blues"), genresNamesMap.get("electric-blues")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("angloceltic-folk"), genresNamesMap.get("roots-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("western-music"), genresNamesMap.get("western-swing")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("blues"), genresNamesMap.get("roots-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("angloceltic-folk"), genresNamesMap.get("country-folk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("jazz"), genresNamesMap.get("krautrock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("jazz"), genresNamesMap.get("skiffle")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("boogie-woogie"), genresNamesMap.get("rockabilly")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("boogie-woogie"), genresNamesMap.get("boogie-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("country"), genresNamesMap.get("rock--roll")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("country"), genresNamesMap.get("cowpunk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("country"), genresNamesMap.get("country-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("country"), genresNamesMap.get("country-folk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("country"), genresNamesMap.get("skiffle")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("country"), genresNamesMap.get("roots-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("country"), genresNamesMap.get("country-pop")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("country"), genresNamesMap.get("rockabilly")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("country"), genresNamesMap.get("heartland-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("big-band"), genresNamesMap.get("jump-blues")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("swing"), genresNamesMap.get("western-swing")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("electric-blues"), genresNamesMap.get("blues-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("western-swing"), genresNamesMap.get("rockabilly")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("jump-blues"), genresNamesMap.get("rhythm--blues")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("avantgarde"), genresNamesMap.get("progressive-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("avantgarde"), genresNamesMap.get("glam-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("avantgarde"), genresNamesMap.get("experimental-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("avantgarde"), genresNamesMap.get("industrial")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("avantgarde"), genresNamesMap.get("no-wave")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("avantgarde"), genresNamesMap.get("experimental-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rhythm--blues"), genresNamesMap.get("doo-wop")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rhythm--blues"), genresNamesMap.get("rock--roll")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rock--roll"), genresNamesMap.get("funk-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rock--roll"), genresNamesMap.get("garage-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rock--roll"), genresNamesMap.get("surf")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rock--roll"), genresNamesMap.get("beat-music")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rock--roll"), genresNamesMap.get("rockabilly")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rock--roll"), genresNamesMap.get("blues-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rock--roll"), genresNamesMap.get("heartland-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rockabilly"), genresNamesMap.get("psychobilly")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("skiffle"), genresNamesMap.get("beat-music")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("doo-wop"), genresNamesMap.get("beat-music")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("doo-wop"), genresNamesMap.get("surf")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("ska"), genresNamesMap.get("2-tone")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("beat-music"), genresNamesMap.get("rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("surf"), genresNamesMap.get("pop-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("beat-music"), genresNamesMap.get("folk-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("garage-rock"), genresNamesMap.get("hard-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("blues-rock"), genresNamesMap.get("heavy-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("blues-rock"), genresNamesMap.get("stoner-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("garage-rock"), genresNamesMap.get("garage-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("garage-rock"), genresNamesMap.get("indie-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("blues-rock"), genresNamesMap.get("hard-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("blues-rock"), genresNamesMap.get("psychedelic-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("blues-rock"), genresNamesMap.get("boogie-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("folk-rock"), genresNamesMap.get("psychedelic-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("drone"), genresNamesMap.get("industrial")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("folk-rock"), genresNamesMap.get("soft-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("funk"), genresNamesMap.get("funk-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("folk-rock"), genresNamesMap.get("electric-folk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("beat-music"), genresNamesMap.get("pop-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("garage-rock"), genresNamesMap.get("rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("blues-rock"), genresNamesMap.get("southern-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("drone"), genresNamesMap.get("drone-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("garage-rock"), genresNamesMap.get("punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("folk-rock"), genresNamesMap.get("heartland-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("folk-rock"), genresNamesMap.get("psychedelic-folk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("psychedelic-rock"), genresNamesMap.get("heavy-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("psychedelic-rock"), genresNamesMap.get("art-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("psychedelic-rock"), genresNamesMap.get("psychedelic-folk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("psychedelic-rock"), genresNamesMap.get("progressive-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("psychedelic-rock"), genresNamesMap.get("glam-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("psychedelic-rock"), genresNamesMap.get("stoner-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("experimental-rock"), genresNamesMap.get("math-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("experimental-rock"), genresNamesMap.get("art-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("experimental-rock"), genresNamesMap.get("progressive-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("experimental-rock"), genresNamesMap.get("post-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("roots-rock"), genresNamesMap.get("southern-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("progressive-rock"), genresNamesMap.get("symphonic-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("progressive-rock"), genresNamesMap.get("progressive-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("progressive-rock"), genresNamesMap.get("experimental-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("progressive-rock"), genresNamesMap.get("krautrock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hard-rock"), genresNamesMap.get("boogie-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("krautrock"), genresNamesMap.get("new-german-wave")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("symphonic-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("experimental-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("art-rock"), genresNamesMap.get("post-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("art-rock"), genresNamesMap.get("glam-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("art-rock"), genresNamesMap.get("gothic-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("art-rock"), genresNamesMap.get("art-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("folk-rock"), genresNamesMap.get("country-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("psychedelic-rock"), genresNamesMap.get("space-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("psychedelic-rock"), genresNamesMap.get("hard-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("experimental-rock"), genresNamesMap.get("krautrock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("progressive-rock"), genresNamesMap.get("space-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hard-rock"), genresNamesMap.get("rap-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("stoner-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("post-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("art-rock"), genresNamesMap.get("space-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("psychedelic-rock"), genresNamesMap.get("experimental-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hard-rock"), genresNamesMap.get("post-grunge")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("alternative-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("psychedelic-rock"), genresNamesMap.get("krautrock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("grunge")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("krautrock"), genresNamesMap.get("industrial")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("dub"), genresNamesMap.get("post-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("krautrock"), genresNamesMap.get("art-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("rap-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("doom-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("speed-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("krautrock"), genresNamesMap.get("german-electronic-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("glam-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("neoclassical-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("funk-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("progressive-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("power-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("heavy-metal"), genresNamesMap.get("extreme-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("disco"), genresNamesMap.get("new-wave")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("symphonic-rock"), genresNamesMap.get("symphonic-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("disco"), genresNamesMap.get("post-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("country-rock"), genresNamesMap.get("alternative-country")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("pop-rock"), genresNamesMap.get("glam-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("glam-rock"), genresNamesMap.get("new-wave")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("glam-rock"), genresNamesMap.get("gothic-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("glam-rock"), genresNamesMap.get("glam-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("doom-metal"), genresNamesMap.get("drone-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("doom-metal"), genresNamesMap.get("gothic-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("doom-metal"), genresNamesMap.get("sludge-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hip-hop"), genresNamesMap.get("rap-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("alternative-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("2-tone")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("new-wave")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("pop-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("new-german-wave")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("punk-blues")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("post-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("art-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("psychobilly")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("rapcore")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("garage-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("funk-rock"), genresNamesMap.get("funk-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("glam-rock"), genresNamesMap.get("death-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("doom-metal"), genresNamesMap.get("deathdoom")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("no-wave")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("cowpunk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("punk"), genresNamesMap.get("hardcore-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("new-wave"), genresNamesMap.get("pop-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("new-wave"), genresNamesMap.get("2-tone")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("new-wave"), genresNamesMap.get("indie-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("new-wave"), genresNamesMap.get("cowpunk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("industrial"), genresNamesMap.get("industrial-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("industrial"), genresNamesMap.get("neofolk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("new-wave"), genresNamesMap.get("gothic-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("industrial"), genresNamesMap.get("grindcore")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("new-wave"), genresNamesMap.get("new-german-wave")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("new-wave"), genresNamesMap.get("dark-wave")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("post-punk"), genresNamesMap.get("dark-wave")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("2-tone"), genresNamesMap.get("ska-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("post-punk"), genresNamesMap.get("death-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("post-punk"), genresNamesMap.get("industrial-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("post-punk"), genresNamesMap.get("indie-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("post-punk"), genresNamesMap.get("indie-pop")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hardcore-punk"), genresNamesMap.get("dbeat")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hardcore-punk"), genresNamesMap.get("speed-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("industrial-rock"), genresNamesMap.get("industrial-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hardcore-punk"), genresNamesMap.get("metalcore")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hardcore-punk"), genresNamesMap.get("rapcore")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("post-punk"), genresNamesMap.get("shoegaze")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hardcore-punk"), genresNamesMap.get("grunge")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hardcore-punk"), genresNamesMap.get("industrial-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("post-punk"), genresNamesMap.get("gothic-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hardcore-punk"), genresNamesMap.get("grindcore")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("noise-rock"), genresNamesMap.get("shoegaze")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("post-punk"), genresNamesMap.get("post-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("no-wave"), genresNamesMap.get("noise-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hardcore-punk"), genresNamesMap.get("crust-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hardcore-punk"), genresNamesMap.get("black-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("speed-metal"), genresNamesMap.get("power-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("alternative-rock"), genresNamesMap.get("alternative-country")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("speed-metal"), genresNamesMap.get("thrash-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("gothic-rock"), genresNamesMap.get("gothabilly")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("gothic-rock"), genresNamesMap.get("gothic-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("alternative-rock"), genresNamesMap.get("indie-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("extreme-metal"), genresNamesMap.get("grindcore")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("extreme-metal"), genresNamesMap.get("crust-punk")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("thrash-metal"), genresNamesMap.get("industrial-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hardcore-punk"), genresNamesMap.get("sludge-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hardcore-punk"), genresNamesMap.get("thrashcore")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("alternative-rock"), genresNamesMap.get("alternative-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("psychobilly"), genresNamesMap.get("gothabilly")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("hardcore-punk"), genresNamesMap.get("emo")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("thrash-metal"), genresNamesMap.get("metalcore")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("extreme-metal"), genresNamesMap.get("dark-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("extreme-metal"), genresNamesMap.get("experimental-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("thrash-metal"), genresNamesMap.get("black-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("thrash-metal"), genresNamesMap.get("groove-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("indie-rock"), genresNamesMap.get("shoegaze")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("indie-rock"), genresNamesMap.get("nu-gaze")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("indie-rock"), genresNamesMap.get("grunge")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("indie-rock"), genresNamesMap.get("indie-pop")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("thrash-metal"), genresNamesMap.get("death-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("indie-rock"), genresNamesMap.get("math-rock")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("death-metal"), genresNamesMap.get("black-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("death-metal"), genresNamesMap.get("deathdoom")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("metalcore"), genresNamesMap.get("mathcore")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rap-rock"), genresNamesMap.get("rapcore")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("grunge"), genresNamesMap.get("post-grunge")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rap-rock"), genresNamesMap.get("rap-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("rap-metal"), genresNamesMap.get("nu-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("industrial-metal"), genresNamesMap.get("german-electronic-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("industrial-metal"), genresNamesMap.get("nu-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("alternative-metal"), genresNamesMap.get("nu-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("funk-metal"), genresNamesMap.get("nu-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("techno"), genresNamesMap.get("german-electronic-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("shoegaze"), genresNamesMap.get("post-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("shoegaze"), genresNamesMap.get("nu-gaze")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("post-rock"), genresNamesMap.get("post-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("math-rock"), genresNamesMap.get("mathcore")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("groove-metal"), genresNamesMap.get("german-electronic-metal")));
+        genresNamesAssocList.add(new GenreAssoc(genresNamesMap.get("gothic-metal"), genresNamesMap.get("dark-metal")));
     }
 
     private void fillGenresNamesList(LinkedList<String> genresNamesList) {
