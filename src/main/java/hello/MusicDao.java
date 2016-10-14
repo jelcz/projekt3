@@ -86,8 +86,8 @@ public class MusicDao {
                 String trackName = rs.getString("trackName");
 
                 Song song = new Song(rs.getInt("trackId"), trackName, rs.getString("trackArtistName")
-                        , rs.getString("trackTag1"), rs.getString("trackTag2"), rs.getString("trackTag3"), rs.getString("trackTag4")
-                        , rs.getString("trackTag5"));
+                        , rs.getString("trackTag1").toLowerCase(), rs.getString("trackTag2").toLowerCase(), rs.getString("trackTag3").toLowerCase(), rs.getString("trackTag4").toLowerCase()
+                        , rs.getString("trackTag5").toLowerCase());
                 if (!trackNamesList.containsKey(trackName)) {
                     trackList.add(song);
                     trackNamesList.put(trackName, song);

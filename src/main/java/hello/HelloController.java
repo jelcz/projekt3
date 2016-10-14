@@ -123,9 +123,36 @@ public class HelloController {
         log.log("getSongsByTag call " + tag);
 
         LinkedList<Song> songs = musicService.getSongsByTag(tag, musicService.getSongs());
+        List<Song> songsList = new LinkedList<>();
+        if (songs.size() > 20) {
+            songsList = songs.subList(0, 20);
+        } else {
+            songsList = songs;
+        }
 
         JSONObject obj = new JSONObject();
-        obj.put("songs", songs);
+        obj.put("songs", songsList);
+
+        return obj;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getSongsByTag/{tag1}/{tag2}", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject restGetSongsByTags(@PathVariable("tag1") String tag1, @PathVariable("tag2") String tag2) {
+
+        log.log("getSongsByTag call " + tag1 + ", " + tag2);
+
+        LinkedList<Song> songs = musicService.getSongsByTags(tag1, tag2, musicService.getSongs());
+        List<Song> songsList = new LinkedList<>();
+        if (songs.size() > 20) {
+            songsList = songs.subList(0, 20);
+        } else {
+            songsList = songs;
+        }
+
+        JSONObject obj = new JSONObject();
+        obj.put("songs", songsList);
 
         return obj;
     }

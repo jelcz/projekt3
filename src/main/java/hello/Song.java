@@ -35,6 +35,19 @@ public class Song {
         return false;
     }
 
+    public boolean hasTags(String tag1, String tag2){
+        if(this.songTag1.equals(tag1) || this.songTag2.equals(tag1) ||
+                this.songTag3.equals(tag1) || this.songTag4.equals(tag1) ||
+                this.songTag5.equals(tag1)) {
+            if(this.songTag1.equals(tag2) || this.songTag2.equals(tag2) ||
+                    this.songTag3.equals(tag2) || this.songTag4.equals(tag2) ||
+                    this.songTag5.equals(tag2)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int getSongId() {
         return songId;
     }
