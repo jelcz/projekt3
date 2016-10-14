@@ -5,6 +5,9 @@ package hello;
  */
 public class Genre {
 
+    private int genreId;
+    private String genreName;
+
     public Genre(int genreId, String genreName){
         this.genreId = genreId;
         this.genreName = genreName;
@@ -18,7 +21,6 @@ public class Genre {
         this.genreId = genreId;
     }
 
-    private int genreId;
 
     public String getGenreName() {
         return genreName;
@@ -27,9 +29,6 @@ public class Genre {
     public void setGenreName(String genreName) {
         this.genreName = genreName;
     }
-
-    private String genreName;
-
 
     @Override
     public String toString() {
