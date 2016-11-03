@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-public class HelloController {
+public class ApiController {
 
     Utils util = new Utils();
     MyLogger log = new MyLogger();
@@ -115,17 +115,18 @@ public class HelloController {
         obj.put("Songs", tracks);
         return obj;
     }
+
     @CrossOrigin
-    @RequestMapping(value = "/getSongsByTag/{tag}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getSongsByTag/{tag}/{quantity}", method = RequestMethod.GET)
     @ResponseBody
-    public JSONObject restGetSongsByTag(@PathVariable("tag") String tag) {
+    public JSONObject restGetSongsByTag(@PathVariable("tag") String tag, @PathVariable("quantity") int quantity) {
 
         log.log("getSongsByTag call " + tag);
 
         LinkedList<Song> songs = musicService.getSongsByTag(tag, musicService.getSongs());
         List<Song> songsList = new LinkedList<>();
-        if (songs.size() > 20) {
-            songsList = songs.subList(0, 20);
+        if (songs.size() > quantity) {
+            songsList = songs.subList(0, quantity);
         } else {
             songsList = songs;
         }
@@ -137,16 +138,37 @@ public class HelloController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/getSongsByTag/{tag1}/{tag2}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getArtistsByTag/{tag}/{quantity}", method = RequestMethod.GET)
     @ResponseBody
-    public JSONObject restGetSongsByTags(@PathVariable("tag1") String tag1, @PathVariable("tag2") String tag2) {
+    public JSONObject restGetArtistsByTag(@PathVariable("tag") String tag, @PathVariable("quantity") int quantity) {
+
+        log.log("restGetArtistsByTag call " + tag + ", " + quantity);
+
+        LinkedList<Song> songs = musicService.getSongsByTag(tag, musicService.getSongs());
+        List<Song> songsList = new LinkedList<>();
+        if (songs.size() > quantity) {
+            songsList = songs.subList(0, quantity);
+        } else {
+            songsList = songs;
+        }
+
+        JSONObject obj = new JSONObject();
+        obj.put("songs", songsList);
+
+        return obj;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getSongsByTag/{tag1}/{tag2}/{quantityTwo}", method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject restGetSongsByTags(@PathVariable("tag1") String tag1, @PathVariable("tag2") String tag2, @PathVariable("quantityTwo") int quantity) {
 
         log.log("getSongsByTag call " + tag1 + ", " + tag2);
 
         LinkedList<Song> songs = musicService.getSongsByTags(tag1, tag2, musicService.getSongs());
         List<Song> songsList = new LinkedList<>();
-        if (songs.size() > 20) {
-            songsList = songs.subList(0, 20);
+        if (songs.size() > quantity) {
+            songsList = songs.subList(0, quantity);
         } else {
             songsList = songs;
         }
