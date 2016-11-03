@@ -1,4 +1,4 @@
-package hello;
+package app;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -52,6 +52,10 @@ public class MusicService {
     public void setGenres(LinkedList<Genre> genres) {
         this.genres = genres;
     }
+
+    public void setGenresAssoc(LinkedList<Genre> genres) {
+    }
+
 
     public LinkedList<Song> getSongs() {
         return songs;

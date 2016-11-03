@@ -1,4 +1,4 @@
-package hello;
+package app;
 //STEP 1. Import required packages
 
 import java.sql.*;
@@ -61,6 +61,10 @@ public class MusicDao {
             }//end finally try
         }//end try
         return genreList;
+    }
+
+    public LinkedList<Genre> getGenresAssoc(){
+        return new LinkedList<>();
     }
 
     public LinkedList<Song> getSongs() {
@@ -260,27 +264,13 @@ public class MusicDao {
 
     }
 
-    public void insertIntoTracks(int trackId, String trackName, String trackArtistName, String trackTag1,
-                                 String trackTag2, String trackTag3, String trackTag4, String trackTag5) {
+    public void insertIntoTracks(int trackId, String trackName,
+                                 String trackArtistName, String trackTag1,
+                                 String trackTag2, String trackTag3, String
+                                         trackTag4, String trackTag5) {
         ArrayList<Genre> genreList = new ArrayList<>();
         Connection conn = null;
         Statement stmt = null;
-
-        trackName = trackName.replace("\'", "");
-        trackArtistName = trackArtistName.replace("\'", "");
-        trackTag1= trackTag1.replace("\'", "");
-        trackTag2 = trackTag2.replace("\'", "");
-        trackTag3 = trackTag3.replace("\'", "");
-        trackTag4= trackTag4.replace("\'", "");
-        trackTag5= trackTag5.replace("\'", "");
-
-        trackName = trackName.replace("\"", "");
-        trackArtistName = trackArtistName.replace("\"", "");
-        trackTag1= trackTag1.replace("\"", "");
-        trackTag2 = trackTag2.replace("\"", "");
-        trackTag3 = trackTag3.replace("\"", "");
-        trackTag4= trackTag4.replace("\"", "");
-        trackTag5= trackTag5.replace("\"", "");
 
         try{
             //STEP 2: Register JDBC driver
@@ -291,9 +281,11 @@ public class MusicDao {
             stmt = conn.createStatement();
             String sql;
 
-            sql = "INSERT INTO songs (trackId, trackName, trackArtistName, trackTag1, trackTag2, trackTag3, trackTag4, trackTag5) " +
-                    "VALUES ("+ trackId + ", '" + trackName + "', '" + trackArtistName + "', '"
-                    + trackTag1 +  "', '" + trackTag2 +  "', '" + trackTag3 +  "', '" + trackTag4 +  "', '" + trackTag5
+            sql = "INSERT INTO tracks (trackId, trackName, trackArtistName," +
+                    " trackTag1, trackTag2, trackTag3, trackTag4, trackTag5) " +
+                    "VALUES ("+ trackId + ", '" + trackName + "', '" +
+                    trackArtistName + "', '" + trackTag1 +  "', '" + trackTag2 +
+                    "', '" + trackTag3 +  "', '" + trackTag4 +  "', '" + trackTag5
                     + "') ON DUPLICATE KEY UPDATE trackName = '" + trackName + "';";
 
 

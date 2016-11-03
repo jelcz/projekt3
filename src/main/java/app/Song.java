@@ -1,4 +1,6 @@
-package hello;
+package app;
+
+import java.util.Arrays;
 
 /**
  * Created by jelcz on 2016-10-12.
@@ -36,12 +38,10 @@ public class Song {
     }
 
     public boolean hasTags(String tag1, String tag2){
-        if(this.songTag1.equals(tag1) || this.songTag2.equals(tag1) ||
-                this.songTag3.equals(tag1) || this.songTag4.equals(tag1) ||
-                this.songTag5.equals(tag1)) {
-            if(this.songTag1.equals(tag2) || this.songTag2.equals(tag2) ||
-                    this.songTag3.equals(tag2) || this.songTag4.equals(tag2) ||
-                    this.songTag5.equals(tag2)) {
+        if (Arrays.asList(this.songTag1, this.songTag2, this.songTag3,
+                this.songTag4, this.songTag5).contains(tag1)) {
+            if (Arrays.asList(this.songTag1, this.songTag2, this.songTag3,
+                    this.songTag4, this.songTag5).contains(tag2)) {
                 return true;
             }
         }

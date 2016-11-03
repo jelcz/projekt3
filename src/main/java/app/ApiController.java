@@ -1,4 +1,4 @@
-package hello;
+package app;
 
 import de.umass.lastfm.PaginatedResult;
 import de.umass.lastfm.Tag;
@@ -40,26 +40,28 @@ public class ApiController {
         log.log("init call");
         musicService.setSongs(musicDao.getSongs());
         musicService.setGenres(musicDao.getGenres());
+        musicService.setGenresAssoc(musicDao.getGenresAssoc());
         JSONObject obj = new JSONObject();
         obj.put("Status", "succeed");
         return obj;
     }
 
     @CrossOrigin
-    @RequestMapping("/initLastFm/")
+    @RequestMapping("/lastFmData/")
     public JSONObject lastfm() {
         log.log("initLastFm call");
 
-        util.truncateTracksTable();
-
-        String key = "66e316cc7a5713729c71cc2083a05eaa"; //this is the key used in the Last.fm API examples
+        String key = "66e316cc7a5713729c71cc2083a05eaa";
         String user = "boleem";
         int counter = 0;
         for(int i = 0; i<20 ; i++) {
-            PaginatedResult<Track> tracks = User.getRecentTracks(user, i, 1000, key);
+            PaginatedResult<Track> tracks = User.
+                    getRecentTracks(user, i, 1000, key);
 
             for (Track track : tracks) {
-                List<Tag> tagList = new ArrayList(track.getTopTags(track.getArtist().toString(), track.getName(), key));
+                List<Tag> tagList = new ArrayList(
+                        track.getTopTags(track.getArtist().
+                                toString(), track.getName(), key));
 
                 String tag0 = "";
                 String tag1 = "";
@@ -80,7 +82,9 @@ public class ApiController {
                             }
                         }
                     }
-                    musicDao.insertIntoTracks(counter++, track.getName(), track.getArtist().toString(), tag0, tag1, tag2, tag3, tag4);
+                    musicDao.insertIntoTracks(counter++,
+                            track.getName(), track.getArtist().toString(),
+                            tag0, tag1, tag2, tag3, tag4);
                 }
             }
         }
@@ -159,14 +163,24 @@ public class ApiController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/getSongsByTag/{tag1}/{tag2}/{quantityTwo}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getSongsByTag/{tag1}/{tag2}/{quantity}", method = RequestMethod.GET)
     @ResponseBody
-    public JSONObject restGetSongsByTags(@PathVariable("tag1") String tag1, @PathVariable("tag2") String tag2, @PathVariable("quantityTwo") int quantity) {
+    public JSONObject restGetSongsByTags(@PathVariable("tag1") String tag1,
+                                         @PathVariable("tag2") String tag2,
+                                         @PathVariable("quantity") int quantity) {
 
         log.log("getSongsByTag call " + tag1 + ", " + tag2);
 
         LinkedList<Song> songs = musicService.getSongsByTags(tag1, tag2, musicService.getSongs());
         List<Song> songsList = new LinkedList<>();
+        if (songs.size() == 0) {
+            LinkedList<Genre> genresExtended = musicDao.getGenreClosestAssocs(tag1);
+            genresExtended.addAll(musicDao.getGenreClosestAssocs(tag2));
+                for(Genre genre: genresExtended) {
+                    songs.addAll(musicService.getSongsByTag(genre.getGenreName(),
+                            musicService.getSongs()));
+                }
+        }
         if (songs.size() > quantity) {
             songsList = songs.subList(0, quantity);
         } else {

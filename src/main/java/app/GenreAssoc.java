@@ -1,4 +1,4 @@
-package hello;
+package app;
 
 /**
  * Created by jelcz on 2016-10-12.
